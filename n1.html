@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to 2026 | The Future</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;900&display=swap');
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #ui {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            pointer-events: none;
+            mix-blend-mode: exclusion;
+            z-index: 10;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 8vw;
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: -5px;
+            line-height: 0.9;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glitch 1s linear infinite;
+        }
+
+        h1 span {
+            font-size: 2vw;
+            display: block;
+            font-weight: 100;
+            letter-spacing: 10px;
+            margin-top: 20px;
+            color: #fff;
+            -webkit-text-fill-color: #fff;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Hiệu ứng rung nhẹ */
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px,0) skew(0deg); }
+            4%, 60% { transform: translate(-2px,0) skew(0deg); }
+            62% { transform: translate(0,0) skew(5deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui">
+        <h1>2026<br><span>HAPPY NEW YEAR</span></h1>
+    </div>
+
+    <div class="overlay">Drag to rotate universe • Click for Warp Speed</div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        /**
+         * CONCEPT: 3D STARFIELD WITH WARP SPEED
+         * Code by Gemini "The Artist"
+         */
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+        const numStars = 2000; // Số lượng sao (càng nhiều càng đẹp nhưng nặng)
+        const speed = 0.5; // Tốc độ xoay mặc định
+        let warpSpeed = 0; // Tốc độ khi click chuột
+        
+        // Tâm điểm 3D
+        let centerX, centerY;
+
+        // Mouse interaction
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            centerX = width / 2;
+            centerY = height / 2;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Class Ngôi sao 3D
+        class Star {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = (Math.random() - 0.5) * width * 2; // Rải rộng ra
+                this.y = (Math.random() - 0.5) * height * 2;
+                this.z = Math.random() * width; // Độ sâu
+                this.pz = this.z; // Vị trí Z cũ để vẽ vệt sáng (trail)
+            }
+
+            update() {
+                // Di chuyển sao lại gần màn hình (giảm Z)
+                this.z -= (10 + warpSpeed);
+
+                // Nếu sao bay qua màn hình rồi thì reset lại về phía xa
+                if (this.z < 1) {
+                    this.reset();
+                    this.z = width;
+                    this.pz = this.z;
+                }
+            }
+
+            draw() {
+                // Công thức phối cảnh 3D (Perspective Projection)
+                // Biến đổi tọa độ 3D (x,y,z) thành 2D (sx, sy) trên màn hình
+                const sx = (this.x / this.z) * centerX + centerX;
+                const sy = (this.y / this.z) * centerY + centerY;
+
+                // Tọa độ cũ để vẽ vệt dài (hiệu ứng warp)
+                const px = (this.x / this.pz) * centerX + centerX;
+                const py = (this.y / this.pz) * centerY + centerY;
+
+                this.pz = this.z;
+
+                // Tính toán độ sáng dựa trên độ gần (càng gần càng sáng)
+                const opacity = 1 - this.z / width;
+                
+                // Hiệu ứng tương tác chuột (Xoay vũ trụ)
+                // Chúng ta dịch chuyển tọa độ vẽ dựa trên vị trí chuột
+                const offsetX = (mouseX - centerX) * (width - this.z) / width * 0.1;
+                const offsetY = (mouseY - centerY) * (width - this.z) / width * 0.1;
+
+                ctx.beginPath();
+                ctx.moveTo(px + offsetX, py + offsetY);
+                ctx.lineTo(sx + offsetX, sy + offsetY);
+                
+                // Màu sắc: Gradient từ xanh cyan sang trắng
+                ctx.strokeStyle = `rgba(100, 200, 255, ${opacity})`;
+                ctx.lineWidth = opacity * 2; // Sao gần thì to hơn
+                ctx.stroke();
+            }
+        }
+
+        // Khởi tạo sao
+        for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+        }
+
+        // Loop Animation
+        function animate() {
+            // Hiệu ứng mờ đuôi (Motion Blur) cực nghệ
+            // Thay vì xóa trắng màn hình, ta phủ một lớp đen mờ lên
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'; 
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            // Giảm tốc độ Warp từ từ nếu thả chuột ra
+            if (warpSpeed > 0) warpSpeed *= 0.95;
+
+            requestAnimationFrame(animate);
+        }
+
+        // Mouse Events
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        document.addEventListener('mousedown', () => {
+            warpSpeed = 50; // Tăng tốc khi click
+            document.querySelector('h1').style.transform = "scale(1.2)";
+            document.querySelector('h1').style.transition = "transform 0.2s";
+        });
+
+        document.addEventListener('mouseup', () => {
+            document.querySelector('h1').style.transform = "scale(1)";
+        });
+        
+        // Touch events cho điện thoại
+        document.addEventListener('touchstart', (e) => {
+            warpSpeed = 50;
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+        });
+
+        animate();
+    </script>
+</body>
+</html>
