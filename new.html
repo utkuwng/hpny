@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Món Quà Năm Mới 2025 Dành Cho Bạn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Pacifico&family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B9D;
+            --secondary: #C44569;
+            --accent: #FFA07A;
+            --gold: #FFD700;
+            --purple: #9B59B6;
+            --blue: #4FC3F7;
+            --pink: #FF80AB;
+            --green: #66BB6A;
+            --cream: #FFF8E1;
+            --dark: #2C3E50;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(-45deg, #FFE5EC, #FFC8DD, #CDB4DB, #BDE0FE, #A2D2FF);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating hearts background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatHeart 10s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(720deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Gift box stages */
+        .gift-stage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .gift-stage.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0) rotate(180deg);
+            pointer-events: none;
+        }
+
+        /* Stage 0: Initial gift box */
+        .stage-0 {
+            text-align: center;
+        }
+
+        .gift-box-wrapper {
+            position: relative;
+            cursor: pointer;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-30px) rotate(2deg); }
+        }
+
+        .gift-box {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 
+                0 30px 60px rgba(255, 107, 157, 0.4),
+                0 0 0 8px rgba(255, 255, 255, 0.5),
+                0 0 0 12px rgba(255, 107, 157, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 
+                0 40px 80px rgba(255, 107, 157, 0.6),
+                0 0 0 8px rgba(255, 255, 255, 0.7),
+                0 0 0 12px rgba(255, 107, 157, 0.5);
+        }
+
+        .ribbon-h {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(90deg, var(--gold) 0%, #FFA500 50%, var(--gold) 100%);
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .ribbon-v {
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--gold) 0%, #FFA500 50%, var(--gold) 100%);
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .bow {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 60px;
+        }
+
+        .bow::before,
+        .bow::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50% 50% 0 50%;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .bow::before {
+            left: 0;
+            transform: rotate(-45deg);
+        }
+
+        .bow::after {
+            right: 0;
+            transform: rotate(45deg);
+        }
+
+        .bow-center {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #FFA500;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 10px rgba(255, 165, 0, 0.6);
+        }
+
+        .click-hint {
+            margin-top: 3rem;
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+            animation: pulse 2s infinite;
+            font-family: 'Comfortaa', cursive;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            animation: sparkleAnim 1.5s infinite;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% { 
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        .sparkle:nth-child(1) { top: -20px; left: -20px; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: -20px; right: -20px; animation-delay: 0.3s; }
+        .sparkle:nth-child(3) { bottom: -20px; left: -20px; animation-delay: 0.6s; }
+        .sparkle:nth-child(4) { bottom: -20px; right: -20px; animation-delay: 0.9s; }
+
+        /* Stage 1: Envelope layer */
+        .envelope-wrapper {
+            text-align: center;
+            animation: slideInRotate 1s ease-out;
+        }
+
+        @keyframes slideInRotate {
+            from {
+                opacity: 0;
+                transform: translateY(100px) rotate(-180deg) scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(0) scale(1);
+            }
+        }
+
+        .envelope {
+            width: 350px;
+            height: 250px;
+            background: linear-gradient(135deg, #FFE5EC 0%, #FFC8DD 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 4px solid white;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 30px 80px rgba(255, 107, 157, 0.5);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #C44569 0%, #FF6B9D 100%);
+            border-radius: 15px 15px 0 0;
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            border: 4px solid white;
+            border-bottom: none;
+        }
+
+        .envelope-flap::before {
+            content: '💌';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+        }
+
+        .envelope:hover .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope-letter {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 85%;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .envelope-letter h2 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .envelope-letter p {
+            color: var(--dark);
+            font-size: 1.1rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .stage-instruction {
+            margin-top: 2rem;
+            font-size: 1.3rem;
+            color: var(--dark);
+            font-weight: 600;
+            font-family: 'Comfortaa', cursive;
+            animation: pulse 2s infinite;
+        }
+
+        /* Stage 2: Card reveal */
+        .card-wrapper {
+            animation: slideInRotate 1s ease-out;
+        }
+
+        .wish-card-big {
+            width: 400px;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFE5EC 100%);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 
+                0 30px 80px rgba(255, 107, 157, 0.3),
+                0 0 0 10px white,
+                0 0 0 15px rgba(255, 107, 157, 0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wish-card-big::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .wish-card-big:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 40px 100px rgba(255, 107, 157, 0.5),
+                0 0 0 10px white,
+                0 0 0 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .card-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: rotate3d 3s infinite ease-in-out;
+        }
+
+        @keyframes rotate3d {
+            0%, 100% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.2); }
+        }
+
+        .card-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-message {
+            font-size: 1.2rem;
+            color: var(--dark);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stage 3: Wishes collection */
+        .wishes-collection {
+            animation: slideInRotate 1s ease-out;
+            max-width: 900px;
+        }
+
+        .collection-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .collection-header h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: colorShift 3s infinite;
+        }
+
+        @keyframes colorShift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(30deg); }
+        }
+
+        .wishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .mini-wish-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .mini-wish-card:nth-child(1) { animation-delay: 0.1s; }
+        .mini-wish-card:nth-child(2) { animation-delay: 0.2s; }
+        .mini-wish-card:nth-child(3) { animation-delay: 0.3s; }
+        .mini-wish-card:nth-child(4) { animation-delay: 0.4s; }
+        .mini-wish-card:nth-child(5) { animation-delay: 0.5s; }
+        .mini-wish-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .mini-wish-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transition: left 0.5s;
+        }
+
+        .mini-wish-card:hover::before {
+            left: 100%;
+        }
+
+        .mini-wish-card:hover {
+            transform: translateY(-15px) scale(1.05) rotate(3deg);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .mini-wish-card .wish-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .mini-wish-card:nth-child(1) .wish-icon { animation-delay: 0s; }
+        .mini-wish-card:nth-child(2) .wish-icon { animation-delay: 0.2s; }
+        .mini-wish-card:nth-child(3) .wish-icon { animation-delay: 0.4s; }
+        .mini-wish-card:nth-child(4) .wish-icon { animation-delay: 0.6s; }
+        .mini-wish-card:nth-child(5) .wish-icon { animation-delay: 0.8s; }
+        .mini-wish-card:nth-child(6) .wish-icon { animation-delay: 1s; }
+
+        .mini-wish-card h3 {
+            font-family: 'Comfortaa', cursive;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .mini-wish-card p {
+            color: var(--dark);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Stage 4: Final celebration */
+        .celebration-wrapper {
+            text-align: center;
+            animation: scaleIn 1s ease-out;
+            max-width: 700px;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0) rotate(360deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .celebration-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 232, 240, 0.95) 100%);
+            border-radius: 40px;
+            padding: 4rem 3rem;
+            box-shadow: 
+                0 40px 100px rgba(255, 107, 157, 0.4),
+                0 0 0 15px white,
+                0 0 0 20px rgba(255, 107, 157, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .celebration-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .final-emoji {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: bounce 1s infinite ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--purple), var(--blue), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+            animation: colorShift 3s infinite;
+        }
+
+        .final-message {
+            font-size: 1.5rem;
+            color: var(--dark);
+            line-height: 2;
+            margin-bottom: 3rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Comfortaa', cursive;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.5);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(155, 89, 182, 0.5);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gift-box {
+                width: 200px;
+                height: 200px;
+            }
+
+            .envelope {
+                width: 300px;
+                height: 220px;
+            }
+
+            .wish-card-big {
+                width: 320px;
+                padding: 2rem;
+            }
+
+            .card-title {
+                font-size: 2rem;
+            }
+
+            .wishes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-title {
+                font-size: 2.5rem;
+            }
+
+            .final-message {
+                font-size: 1.2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-dots {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            transform: scale(1.3);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-container" id="hearts"></div>
+
+    <!-- Progress indicator -->
+    <div class="progress-dots">
+        <div class="progress-dot active" data-stage="0"></div>
+        <div class="progress-dot" data-stage="1"></div>
+        <div class="progress-dot" data-stage="2"></div>
+        <div class="progress-dot" data-stage="3"></div>
+        <div class="progress-dot" data-stage="4"></div>
+    </div>
+
+    <div class="container">
+        <!-- Stage 0: Gift Box -->
+        <div class="gift-stage stage-0" id="stage0">
+            <div class="gift-box-wrapper" onclick="openStage(1)">
+                <div class="gift-box">
+                    <div class="sparkle">✨</div>
+                    <div class="sparkle">✨</div>
+                    <div class="sparkle">✨</div>
+                    <div class="sparkle">✨</div>
+                    <div class="ribbon-h"></div>
+                    <div class="ribbon-v"></div>
+                    <div class="bow">
+                        <div class="bow-center"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="click-hint">👆 Nhấn vào để mở quà nhé! 🎁</div>
+        </div>
+
+        <!-- Stage 1: Envelope -->
+        <div class="gift-stage stage-1 hidden" id="stage1">
+            <div class="envelope-wrapper">
+                <div class="envelope" onclick="openStage(2)">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-letter">
+                        <h2>Gửi đến bạn yêu quý...</h2>
+                        <p>Một món quà nhỏ đầy yêu thương cho năm mới 2025! ❤️</p>
+                    </div>
+                </div>
+                <div class="stage-instruction">💌 Nhấn vào phong bì để mở!</div>
+            </div>
+        </div>
+
+        <!-- Stage 2: Main Card -->
+        <div class="gift-stage stage-2 hidden" id="stage2">
+            <div class="card-wrapper">
+                <div class="wish-card-big" onclick="openStage(3)">
+                    <div class="card-icon">🎊</div>
+                    <h2 class="card-title">Năm Mới 2025</h2>
+                    <p class="card-message">
+                        Chúc bạn một năm mới thật nhiều niềm vui,<br>
+                        hạnh phúc tràn đầy và thành công rực rỡ!<br>
+                        Hãy cùng khám phá những lời chúc đặc biệt...
+                    </p>
+                    <div class="stage-instruction">✨ Nhấn để xem lời chúc!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 3: Wishes Collection -->
+        <div class="gift-stage stage-3 hidden" id="stage3">
+            <div class="wishes-collection">
+                <div class="collection-header">
+                    <h1>Lời Chúc Năm Mới 2025</h1>
+                </div>
+                <div class="wishes-grid">
+                    <div class="mini-wish-card">
+                        <div class="wish-icon">💰</div>
+                        <h3>Tài Lộc</h3>
+                        <p>Tiền vào như nước, của cải dồi dào, giàu có và thịnh vượng!</p>
+                    </div>
+                    <div class="mini-wish-card">
+                        <div class="wish-icon">❤️</div>
+                        <h3>Tình Yêu</h3>
+                        <p>Tình yêu ngọt ngào, gia đình hạnh phúc, người thân luôn bên cạnh!</p>
+                    </div>
+                    <div class="mini-wish-card">
+                        <div class="wish-icon">🏆</div>
+                        <h3>Thành Công</h3>
+                        <p>Công việc thăng tiến, sự nghiệp rực rỡ, mọi dự án đều thành công!</p>
+                    </div>
+                    <div class="mini-wish-card">
+                        <div class="wish-icon">🌟</div>
+                        <h3>Sức Khỏe</h3>
+                        <p>Khỏe mạnh dồi dào, tràn đầy năng lượng, luôn vui vẻ và tươi trẻ!</p>
+                    </div>
+                    <div class="mini-wish-card">
+                        <div class="wish-icon">🎯</div>
+                        <h3>Ước Mơ</h3>
+                        <p>Mọi ước mơ thành hiện thực, mọi mục tiêu đều đạt được vượt mong đợi!</p>
+                    </div>
+                    <div class="mini-wish-card">
+                        <div class="wish-icon">🌈</div>
+                        <h3>Niềm Vui</h3>
+                        <p>Hạnh phúc tràn ngập, tiếng cười mỗi ngày, cuộc sống đầy màu sắc!</p>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" onclick="openStage(4)">
+                        <span>🎉 Xem Lời Chúc Cuối Cùng 🎉</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 4: Final Celebration -->
+        <div class="gift-stage stage-4 hidden" id="stage4">
+            <div class="celebration-wrapper">
+                <div class="celebration-content">
+                    <div class="final-emoji">🎊🎉🎈</div>
+                    <h1 class="final-title">Chúc Mừng Năm Mới!</h1>
+                    <p class="final-message">
+                        Năm 2025 - Năm của những khởi đầu mới, những cơ hội tuyệt vời!<br>
+                        Chúc bạn và gia đình luôn mạnh khỏe, hạnh phúc và thành công!<br>
+                        Mọi điều tốt đẹp nhất sẽ đến với bạn! 💖✨
+                    </p>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="launchFireworks()">
+                            <span>🎆 Bắn Pháo Hoa</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetJourney()">
+                            <span>🔄 Xem Lại Từ Đầu</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStage = 0;
+
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const hearts = ['💕', '💖', '💗', '💝', '💘', '❤️', '🧡', '💛', '💚', '💙', '💜'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 12000);
+            }, 500);
+        }
+
+        // Open stage
+        function openStage(stageNum) {
+            // Hide current stage
+            const currentStageEl = document.getElementById('stage' + currentStage);
+            currentStageEl.classList.add('hidden');
+            
+            // Show new stage
+            const newStageEl = document.getElementById('stage' + stageNum);
+            newStageEl.classList.remove('hidden');
+            
+            // Update progress dots
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                if (index <= stageNum) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            currentStage = stageNum;
+            
+            // Special effects for certain stages
+            if (stageNum === 1) {
+                createConfetti(30);
+            } else if (stageNum === 3) {
+                createConfetti(50);
+            } else if (stageNum === 4) {
+                setTimeout(() => {
+                    createConfetti(100);
+                    launchFireworks();
+                }, 500);
+            }
+        }
+
+        // Create confetti
+        function createConfetti(count) {
+            const colors = ['#FF6B9D', '#C44569', '#9B59B6', '#4FC3F7', '#FFD700', '#FF80AB', '#66BB6A'];
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        // Launch fireworks
+        function launchFireworks() {
+            const colors = ['#FF6B9D', '#9B59B6', '#4FC3F7', '#FFD700', '#66BB6A'];
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight * 0.6 + window.innerHeight * 0.1;
+                    
+                    for (let j = 0; j < 30; j++) {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'fixed';
+                        particle.style.left = x + 'px';
+                        particle.style.top = y + 'px';
+                        particle.style.width = '8px';
+                        particle.style.height = '8px';
+                        particle.style.borderRadius = '50%';
+                        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        particle.style.pointerEvents = 'none';
+                        particle.style.zIndex = '1000';
+                        
+                        const angle = (Math.PI * 2 * j) / 30;
+                        const velocity = Math.random() * 200 + 100;
+                        const vx = Math.cos(angle) * velocity;
+                        const vy = Math.sin(angle) * velocity;
+                        
+                        document.body.appendChild(particle);
+                        
+                        let px = x, py = y;
+                        let opacity = 1;
+                        
+                        const animate = () => {
+                            px += vx * 0.016;
+                            py += vy * 0.016 + 100 * 0.016;
+                            opacity -= 0.016;
+                            
+                            particle.style.left = px + 'px';
+                            particle.style.top = py + 'px';
+                            particle.style.opacity = opacity;
+                            
+                            if (opacity > 0) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                particle.remove();
+                            }
+                        };
+                        
+                        animate();
+                    }
+                }, i * 200);
+            }
+        }
+
+        // Reset journey
+        function resetJourney() {
+            createConfetti(50);
+            setTimeout(() => {
+                openStage(0);
+            }, 500);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            createHearts();
+            
+            // Auto-start with small confetti
+            setTimeout(() => {
+                createConfetti(20);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
