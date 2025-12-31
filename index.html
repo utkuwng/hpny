@@ -2,1416 +2,426 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧧 Lì Xì Bí Ẩn 2025</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Playfair+Display:wght@400;700;900&family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Khai Lộc Đầu Xuân 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- RESET & BASIC SETUP --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: #050000; 
+            color: #ffd700; 
+            font-family: 'Playfair Display', serif; 
+            overflow: hidden; 
+            height: 100vh;
+            user-select: none; /* Chống bôi đen text */
         }
 
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            background: #000;
-            overflow: hidden;
-            cursor: none;
-        }
-
-        /* Custom cursor with trail */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffd700;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transition: all 0.1s ease;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-trail {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, #ffd700, transparent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-            animation: trailFade 0.5s ease-out forwards;
-        }
-
-        @keyframes trailFade {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0); }
-        }
-
-        .cursor.clicked {
-            transform: scale(1.5);
-            background: rgba(255, 215, 0, 0.3);
-        }
-
-        /* Canvas for particle effects */
+        /* --- BACKGROUND PARTICLES (Lớp thấp nhất) --- */
         #particleCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; /* Nằm dưới cùng */
+            pointer-events: none; /* Không chặn click */
         }
 
-        /* Secret counter */
-        .secret-counter {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            padding: 1rem 2rem;
-            background: rgba(220, 20, 60, 0.3);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            border-radius: 50px;
-            color: #ffd700;
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            z-index: 100;
-            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
-            animation: pulse 2s ease-in-out infinite;
-            transition: all 0.3s ease;
+        /* --- SNAKE CURSOR (Trang trí chuột) --- */
+        .cursor-dot {
+            position: fixed; width: 20px; height: 20px;
+            background: radial-gradient(circle, #ffd700, transparent);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: transform 0.1s;
+        }
+        .cursor-trail {
+            position: fixed; width: 10px; height: 10px;
+            background: rgba(255, 215, 0, 0.5); border-radius: 50%;
+            pointer-events: none; z-index: 9998;
         }
 
-        .secret-counter.found {
-            animation: foundSecret 0.5s ease-out;
-        }
-
-        @keyframes foundSecret {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); background: rgba(255, 215, 0, 0.5); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3); }
-            50% { box-shadow: 0 10px 60px rgba(255, 215, 0, 0.6); }
-        }
-
-        /* Konami code hint */
-        .konami-hint {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1rem 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 20px;
-            color: rgba(255, 215, 0, 0.6);
-            font-size: 0.9rem;
-            z-index: 100;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .konami-hint.show {
-            opacity: 1;
-        }
-
-        /* Main container */
+        /* --- UI LAYERS --- */
         .stage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1s ease;
-            z-index: 1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            opacity: 0; pointer-events: none; transition: opacity 0.8s ease, transform 0.8s ease;
+            z-index: 10; /* Nằm trên canvas */
+        }
+        .stage.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+        .stage.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
+
+        /* --- STAGE 1: INTRO --- */
+        .intro-box {
+            text-align: center; z-index: 20;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px; border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.1);
+        }
+        .title-main {
+            font-family: 'Great Vibes', cursive; font-size: 5rem;
+            background: linear-gradient(to bottom, #ffd700, #b8860b);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        .sub-title { font-size: 1.2rem; letter-spacing: 3px; color: #ccc; margin-bottom: 30px; }
+        
+        .btn-start {
+            padding: 15px 50px; font-size: 1.5rem; color: #000;
+            background: linear-gradient(45deg, #ffd700, #ffec8b);
+            border: none; border-radius: 50px; cursor: pointer;
+            font-family: 'Cinzel', serif; font-weight: bold;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s; animation: pulseBtn 2s infinite;
+        }
+        .btn-start:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+
+        /* --- STAGE 2: THE 3D ENVELOPE --- */
+        .envelope-wrapper { perspective: 1500px; cursor: pointer; }
+        .envelope {
+            width: 320px; height: 500px;
+            background: linear-gradient(135deg, #800000, #400000);
+            border: 3px solid #ffd700; border-radius: 15px;
+            position: relative; transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            display: flex; justify-content: center; align-items: center;
+        }
+        .envelope:hover { transform: translateY(-20px) rotateX(10deg); }
+        
+        .seal {
+            width: 100px; height: 100px; background: radial-gradient(circle, #ffd700, #b8860b);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 3rem; color: #800000; font-family: 'Cinzel', serif; font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
+            transform: translateZ(20px); /* Nổi lên trên mặt phong bì */
+        }
+        .click-hint {
+            margin-top: 30px; color: #aaa; font-size: 0.9rem; letter-spacing: 2px;
+            animation: fadeHint 1.5s infinite; text-align: center;
         }
 
-        .stage.active {
-            opacity: 1;
-            pointer-events: auto;
+        /* --- STAGE 3: FLIP CARDS GRID (Cốt lõi) --- */
+        .cards-container {
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px;
+            width: 90%; max-width: 900px;
+            perspective: 1000px;
+            z-index: 100; /* Đảm bảo nổi trên cùng */
         }
 
-        /* STAGE 0: INTRO WITH MYSTERY */
-        .intro-container {
-            text-align: center;
-            position: relative;
-        }
-
-        .mystery-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(3rem, 8vw, 6rem);
-            color: #ffd700;
-            text-shadow: 
-                0 0 40px rgba(255, 215, 0, 0.8),
-                0 0 80px rgba(255, 215, 0, 0.4);
-            margin-bottom: 3rem;
-            animation: mysteryGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes mysteryGlow {
-            0%, 100% { 
-                filter: brightness(1);
-                transform: scale(1);
-            }
-            50% { 
-                filter: brightness(1.5);
-                transform: scale(1.05);
-            }
-        }
-
-        .mystery-subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 215, 0, 0.7);
-            margin-bottom: 3rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .start-ritual {
-            padding: 1.5rem 4rem;
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #dc143c, #8b0000);
-            color: #ffd700;
-            border: 3px solid #ffd700;
-            border-radius: 50px;
+        .flip-card {
+            background-color: transparent;
+            width: 100%; aspect-ratio: 3/4; /* Tỉ lệ chuẩn thẻ bài */
+            perspective: 1000px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
-            transition: all 0.3s ease;
         }
 
-        .start-ritual::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.5), transparent);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.8s; transform-style: preserve-3d;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .start-ritual:hover::before {
-            width: 400px;
-            height: 400px;
-        }
-
-        .start-ritual:hover {
-            transform: scale(1.1) translateY(-5px);
-            box-shadow: 0 0 100px rgba(255, 215, 0, 0.8);
-        }
-
-        .start-ritual span {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Secret clickable areas */
-        .secret-area {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            z-index: 2;
-            transition: all 0.3s ease;
-        }
-
-        .secret-area:hover {
-            transform: scale(1.2);
-        }
-
-        /* STAGE 1: 3D ROTATING ENVELOPE */
-        .envelope-3d-container {
-            position: relative;
-            width: 500px;
-            height: 650px;
-            perspective: 2000px;
-        }
-
-        .envelope-3d {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotate3dEnvelope 20s linear infinite;
-            cursor: pointer;
-            transition: all 0.5s ease;
-        }
-
-        .envelope-3d:hover {
-            animation-play-state: paused;
-            transform: rotateY(15deg) rotateX(10deg) scale(1.05);
-        }
-
-        @keyframes rotate3dEnvelope {
-            0% { transform: rotateY(0deg) rotateX(0deg); }
-            25% { transform: rotateY(90deg) rotateX(5deg); }
-            50% { transform: rotateY(180deg) rotateX(0deg); }
-            75% { transform: rotateY(270deg) rotateX(-5deg); }
-            100% { transform: rotateY(360deg) rotateX(0deg); }
-        }
-
-        .envelope-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #dc143c 0%, #8b0000 50%, #dc143c 100%);
-            border: 5px solid #ffd700;
-            border-radius: 30px;
-            box-shadow: 
-                0 40px 100px rgba(220, 20, 60, 0.6),
-                inset 0 0 100px rgba(0, 0, 0, 0.3);
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .envelope-face::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255, 215, 0, 0.05) 10px,
-                rgba(255, 215, 0, 0.05) 20px
-            );
-        }
-
-        .envelope-front {
-            transform: translateZ(100px);
-        }
-
-        .envelope-back {
-            transform: rotateY(180deg) translateZ(100px);
-        }
-
-        .envelope-left {
-            transform: rotateY(-90deg) translateZ(350px);
-            width: 200px;
-            left: 50%;
-            margin-left: -100px;
-        }
-
-        .envelope-right {
-            transform: rotateY(90deg) translateZ(150px);
-            width: 200px;
-            left: 50%;
-            margin-left: -100px;
-        }
-
-        .envelope-top {
-            transform: rotateX(90deg) translateZ(325px);
-            height: 200px;
-            top: 50%;
-            margin-top: -100px;
-        }
-
-        .envelope-bottom {
-            transform: rotateX(-90deg) translateZ(325px);
-            height: 200px;
-            top: 50%;
-            margin-top: -100px;
-        }
-
-        .fu-character {
-            font-size: 12rem;
-            font-weight: 900;
-            color: #ffd700;
-            text-shadow: 
-                0 0 40px rgba(255, 215, 0, 1),
-                0 0 80px rgba(255, 215, 0, 0.5);
-            animation: fuGlow 2s ease-in-out infinite;
-            font-family: 'Cinzel', serif;
-        }
-
-        @keyframes fuGlow {
-            0%, 100% { 
-                text-shadow: 
-                    0 0 40px rgba(255, 215, 0, 1),
-                    0 0 80px rgba(255, 215, 0, 0.5);
-            }
-            50% { 
-                text-shadow: 
-                    0 0 80px rgba(255, 215, 0, 1),
-                    0 0 120px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        .shake-hint {
-            position: absolute;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: #ffd700;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-            animation: float 3s ease-in-out infinite;
-            white-space: nowrap;
-        }
-
-        /* Floating lanterns */
-        .lantern-float {
-            position: absolute;
-            width: 80px;
-            height: 100px;
-            animation: floatLantern 8s ease-in-out infinite;
-        }
-
-        @keyframes floatLantern {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-30px) rotate(5deg); }
-        }
-
-        .lantern-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .lantern-float:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
-        .lantern-float:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 2s; }
-        .lantern-float:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
-
-        /* STAGE 2: SHAKE TO REVEAL */
-        .shake-stage {
-            text-align: center;
-        }
-
-        .shake-meter {
-            width: 400px;
-            height: 60px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 3px solid #ffd700;
-            border-radius: 30px;
-            margin: 2rem auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .shake-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #dc143c, #ffd700);
-            width: 0%;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-        }
-
-        .shake-instruction {
-            font-size: 2.5rem;
-            color: #ffd700;
-            margin-bottom: 2rem;
-            font-family: 'Cinzel', serif;
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
-        }
-
-        /* STAGE 3: PUZZLE UNLOCK */
-        .puzzle-container {
-            text-align: center;
-        }
-
-        .puzzle-title {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
-            color: #ffd700;
-            margin-bottom: 3rem;
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
-        }
-
-        .symbols-row {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-        }
-
-        .symbol {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #dc143c, #8b0000);
-            border: 3px solid #ffd700;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 4rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(220, 20, 60, 0.5);
-        }
-
-        .symbol:hover {
-            transform: translateY(-10px) scale(1.1);
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.6);
-        }
-
-        .symbol.selected {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            transform: scale(1.2) rotate(360deg);
-            animation: symbolPulse 0.5s ease-out;
-        }
-
-        @keyframes symbolPulse {
-            0%, 100% { transform: scale(1.2); }
-            50% { transform: scale(1.4); }
-        }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
 
-        /* STAGE 4: WISHES WITH REVEALS */
-        .wishes-scroll {
-            max-width: 1400px;
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 3rem;
-            scrollbar-width: thin;
-            scrollbar-color: #ffd700 rgba(0, 0, 0, 0.3);
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        .wishes-scroll::-webkit-scrollbar {
-            width: 12px;
+        /* Mặt trước (Úp) */
+        .flip-card-front {
+            background: linear-gradient(135deg, #1a0505, #2b0a0a);
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 4h2v2H5V5zm4 4h2v2H9V9zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2z' fill='%23ffd700' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
+        .front-icon { font-size: 3rem; opacity: 0.3; filter: grayscale(1); transition: 0.3s; }
+        .flip-card:hover .front-icon { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
 
-        .wishes-scroll::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+        /* Mặt sau (Ngửa) */
+        .flip-card-back {
+            background: linear-gradient(135deg, #ffd700, #ffec8b);
+            color: #800000; transform: rotateY(180deg);
+            padding: 15px;
         }
+        .wish-icon { font-size: 3rem; margin-bottom: 10px; }
+        .wish-title { font-family: 'Cinzel', serif; font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; }
+        .wish-text { font-size: 0.9rem; line-height: 1.4; font-weight: 500; }
 
-        .wishes-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ffd700, #dc143c);
-            border-radius: 10px;
+        /* Nút Reset ở cuối */
+        .reset-btn {
+            margin-top: 30px; padding: 10px 30px; 
+            background: transparent; border: 1px solid #ffd700; color: #ffd700;
+            border-radius: 30px; cursor: pointer; opacity: 0; pointer-events: none; transition: 0.5s;
         }
+        .reset-btn.show { opacity: 1; pointer-events: auto; }
 
-        .wish-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .year-massive {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(6rem, 15vw, 12rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease infinite;
-            text-shadow: 0 20px 60px rgba(255, 215, 0, 0.5);
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .wishes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .wish-card {
-            background: linear-gradient(135deg, rgba(220, 20, 60, 0.2), rgba(139, 0, 0, 0.3));
-            backdrop-filter: blur(30px);
-            border: 3px solid rgba(255, 215, 0, 0.3);
-            border-radius: 40px;
-            padding: 3.5rem 3rem;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            opacity: 0;
-            transform: translateY(100px) scale(0.8);
-        }
-
-        .wish-card.reveal {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .wish-card::before {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-            transition: top 0.8s ease;
-        }
-
-        .wish-card:hover::before {
-            top: 100%;
-        }
-
-        .wish-card:hover {
-            transform: translateY(-20px) scale(1.05) rotateZ(2deg);
-            border-color: #ffd700;
-            box-shadow: 
-                0 40px 80px rgba(0, 0, 0, 0.6),
-                0 0 100px rgba(255, 215, 0, 0.5);
-        }
-
-        /* Hidden wish that appears on special action */
-        .wish-card.hidden-wish {
-            display: none;
-        }
-
-        .wish-card.hidden-wish.unlocked {
-            display: block;
-            animation: unlockWish 1s ease-out;
-        }
-
-        @keyframes unlockWish {
-            0% {
-                opacity: 0;
-                transform: rotateY(180deg) scale(0);
-            }
-            100% {
-                opacity: 1;
-                transform: rotateY(0) scale(1);
-            }
-        }
-
-        .wish-icon {
-            font-size: 6rem;
-            display: block;
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: bounce 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .wish-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #ffd700;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-        }
-
-        .wish-text {
-            font-size: 1.3rem;
-            color: rgba(255, 215, 0, 0.9);
-            line-height: 2;
-            text-align: center;
-        }
-
-        /* Special golden wish */
-        .wish-card.golden {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 237, 78, 0.2));
-            border: 4px solid #ffd700;
-            box-shadow: 0 0 80px rgba(255, 215, 0, 0.6);
-        }
-
-        /* Final surprise */
-        .final-surprise {
-            text-align: center;
-            padding: 5rem 3rem;
-            background: linear-gradient(135deg, rgba(220, 20, 60, 0.4), rgba(139, 0, 0, 0.5));
-            backdrop-filter: blur(40px);
-            border: 5px solid #ffd700;
-            border-radius: 50px;
-            box-shadow: 
-                0 40px 100px rgba(0, 0, 0, 0.6),
-                0 0 120px rgba(255, 215, 0, 0.5);
-            margin: 3rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-surprise::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent 60%);
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .final-emoji {
-            font-size: 8rem;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .final-title {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .final-text {
-            font-size: clamp(1.3rem, 2.5vw, 2rem);
-            color: #ffd700;
-            line-height: 2.2;
-            margin-bottom: 3rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-ultimate {
-            padding: 1.8rem 4rem;
-            font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #8b0000;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(255, 215, 0, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        .btn-ultimate::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-ultimate:hover::after {
-            width: 400px;
-            height: 400px;
-        }
-
-        .btn-ultimate:hover {
-            transform: translateY(-8px) scale(1.08);
-            box-shadow: 0 25px 70px rgba(255, 215, 0, 0.8);
-        }
-
-        .btn-ultimate span {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Achievement notification */
-        .achievement {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            padding: 3rem 4rem;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 237, 78, 0.95));
-            border: 5px solid #dc143c;
-            border-radius: 30px;
-            text-align: center;
-            z-index: 9999;
-            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .achievement.show {
-            animation: achievementPop 2s ease-out;
-        }
-
-        @keyframes achievementPop {
-            0% { 
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
-            }
-            10% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
-            }
-            90% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
-            }
-        }
-
-        .achievement-icon {
-            font-size: 6rem;
-            margin-bottom: 1rem;
-        }
-
-        .achievement-text {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #8b0000;
-        }
+        /* --- ANIMATIONS --- */
+        @keyframes pulseBtn { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+        @keyframes fadeHint { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .envelope-3d-container {
-                width: 90%;
-                max-width: 400px;
-                height: 520px;
-            }
-
-            .fu-character {
-                font-size: 8rem;
-            }
-
-            .wishes-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .shake-meter {
-                width: 90%;
-            }
+            .cards-container { grid-template-columns: repeat(2, 1fr); gap: 10px; width: 95%; }
+            .title-main { font-size: 3.5rem; }
+            .wish-text { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor" id="cursor"></div>
 
-    <!-- Particle Canvas -->
+    <div class="cursor-dot" id="cursorDot"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Secret Counter -->
-    <div class="secret-counter" id="secretCounter">
-        🔍 Bí mật: <span id="secretCount">0</span>/7
-    </div>
-
-    <!-- Konami Code Hint -->
-    <div class="konami-hint" id="konamiHint">
-        💡 Thử code: ↑↑↓↓←→←→BA
-    </div>
-
-    <!-- Achievement Notification -->
-    <div class="achievement" id="achievement">
-        <div class="achievement-icon">🏆</div>
-        <div class="achievement-text" id="achievementText"></div>
-    </div>
-
-    <!-- STAGE 0: INTRO -->
-    <div class="stage stage-0 active" id="stage0">
-        <div class="intro-container">
-            <!-- Secret clickable areas -->
-            <div class="secret-area" style="top: 10%; left: 10%;" onclick="findSecret(1)"></div>
-            <div class="secret-area" style="top: 10%; right: 10%;" onclick="findSecret(2)"></div>
-            <div class="secret-area" style="bottom: 10%; left: 10%;" onclick="findSecret(3)"></div>
-            <div class="secret-area" style="bottom: 10%; right: 10%;" onclick="findSecret(4)"></div>
-            
-            <div class="mystery-text">Lì Xì Bí Ẩn</div>
-            <div class="mystery-subtitle">Khám phá 7 bí mật ẩn giấu...</div>
-            <button class="start-ritual" onclick="startJourney()">
-                <span>🔮 Bắt Đầu Nghi Thức</span>
-            </button>
+    <div class="stage active" id="stage1">
+        <div class="intro-box">
+            <h1 class="title-main">2025</h1>
+            <p class="sub-title">XUÂN ẤT TỴ - PHÚC LỘC TRÀN ĐẦY</p>
+            <p style="margin-bottom: 20px;">Gửi đến: <span id="receiver" style="color:#fff; font-weight:bold">Người Bạn Quý</span></p>
+            <button class="btn-start" onclick="goToStage2()">KHAI ẤN</button>
         </div>
     </div>
 
-    <!-- STAGE 1: 3D ENVELOPE -->
-    <div class="stage stage-1" id="stage1">
-        <div class="envelope-3d-container">
-            <div class="lantern-float">🏮</div>
-            <div class="lantern-float">🏮</div>
-            <div class="lantern-float">🏮</div>
-            <div class="lantern-float">🏮</div>
-            
-            <div class="envelope-3d" onclick="clickEnvelope()" oncontextmenu="findSecret(5); return false;">
-                <div class="envelope-face envelope-front">
-                    <div class="fu-character">福</div>
-                </div>
-                <div class="envelope-face envelope-back">
-                    <div class="fu-character">財</div>
-                </div>
-                <div class="envelope-face envelope-left"></div>
-                <div class="envelope-face envelope-right"></div>
-                <div class="envelope-face envelope-top"></div>
-                <div class="envelope-face envelope-bottom"></div>
+    <div class="stage" id="stage2">
+        <div class="envelope-wrapper" onclick="goToStage3()">
+            <div class="envelope">
+                <div class="seal">福</div>
             </div>
-            <div class="shake-hint">👆 Click hoặc lắc điện thoại!</div>
         </div>
+        <p class="click-hint">Chạm vào Phong Bao để mở vận may</p>
     </div>
 
-    <!-- STAGE 2: SHAKE TO REVEAL -->
-    <div class="stage stage-2" id="stage2">
-        <div class="shake-stage">
-            <div class="shake-instruction">🎊 Lắc mạnh để mở quà!</div>
-            <div class="shake-meter">
-                <div class="shake-progress" id="shakeProgress"></div>
+    <div class="stage" id="stage3">
+        <h2 style="margin-bottom: 20px; font-family: 'Cinzel'; text-shadow: 0 0 10px #ffd700;">CHỌN 6 QUẺ LỘC ĐẦU NĂM</h2>
+        <div class="cards-container" id="cardsGrid">
             </div>
-        </div>
-    </div>
-
-    <!-- STAGE 3: PUZZLE -->
-    <div class="stage stage-3" id="stage3">
-        <div class="puzzle-container">
-            <div class="puzzle-title">🧩 Chọn 3 biểu tượng may mắn</div>
-            <div class="symbols-row">
-                <div class="symbol" onclick="selectSymbol(this, '🐍')">🐍</div>
-                <div class="symbol" onclick="selectSymbol(this, '🧧')">🧧</div>
-                <div class="symbol" onclick="selectSymbol(this, '💰')">💰</div>
-                <div class="symbol" onclick="selectSymbol(this, '🏮')">🏮</div>
-                <div class="symbol" onclick="selectSymbol(this, '🎋')">🎋</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- STAGE 4: WISHES -->
-    <div class="stage stage-4" id="stage4">
-        <div class="wishes-scroll" id="wishesScroll">
-            <div class="wish-header">
-                <div class="year-massive">2025</div>
-            </div>
-
-            <div class="wishes-grid">
-                <div class="wish-card">
-                    <span class="wish-icon">💰</span>
-                    <h3 class="wish-title">Tài Lộc Dồi Dào</h3>
-                    <p class="wish-text">Tiền vào như nước, của cải thịnh vượng, tài chính dồi dào, kinh doanh phát đạt như Thần Tài phù hộ</p>
-                </div>
-
-                <div class="wish-card">
-                    <span class="wish-icon">🏆</span>
-                    <h3 class="wish-title">Thành Công Vang Dội</h3>
-                    <p class="wish-text">Sự nghiệp thăng tiến vượt bậc, mọi dự án đều thành công mỹ mãn, vận may liên tiếp</p>
-                </div>
-
-                <div class="wish-card">
-                    <span class="wish-icon">❤️</span>
-                    <h3 class="wish-title">Hạnh Phúc Viên Mãn</h3>
-                    <p class="wish-text">Gia đình sum vầy, tình yêu bền chặt, niềm vui tràn ngập từng khoảnh khắc</p>
-                </div>
-
-                <div class="wish-card">
-                    <span class="wish-icon">💪</span>
-                    <h3 class="wish-title">Sức Khỏe Dồi Dào</h3>
-                    <p class="wish-text">Khỏe mạnh như vàng, tràn đầy sinh lực, tươi trẻ và năng động mỗi ngày</p>
-                </div>
-
-                <div class="wish-card">
-                    <span class="wish-icon">🌟</span>
-                    <h3 class="wish-title">Vạn Sự Như Ý</h3>
-                    <p class="wish-text">Mọi điều ước thành hiện thực, kế hoạch nào cũng thuận buồm xuôi gió</p>
-                </div>
-
-                <div class="wish-card">
-                    <span class="wish-icon">🎯</span>
-                    <h3 class="wish-title">Đại Cát Đại Lợi</h3>
-                    <p class="wish-text">May mắn liên tiếp, vận khí hanh thông, gặp nhiều quý nhân phù trợ</p>
-                </div>
-
-                <!-- Hidden golden wish - unlocked by secret -->
-                <div class="wish-card golden hidden-wish" id="hiddenWish">
-                    <span class="wish-icon">👑</span>
-                    <h3 class="wish-title">Phúc Lộc Thọ Toàn</h3>
-                    <p class="wish-text">Lời chúc đặc biệt dành riêng cho người tìm ra mọi bí mật! Năm mới phúc lộc dồi dào, trường thọ bình an, gia nghiệp hưng thịnh!</p>
-                </div>
-            </div>
-
-            <div class="final-surprise">
-                <div class="final-emoji">🎊🧧🎉</div>
-                <div class="final-title">CHÚC MỪNG NĂM MỚI</div>
-                <div class="final-text">
-                    Năm Ất Tỵ 2025 - Năm Rắn Vàng<br>
-                    An Khang Thịnh Vượng - Phát Tài Phát Lộc<br>
-                    Vạn Sự Như Ý - Cát Tường Vạn Sự!<br>
-                    <br>
-                    <small style="opacity: 0.7;">🔍 Bạn đã tìm thấy <span id="finalSecretCount">0</span>/7 bí mật!</small>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-ultimate" onclick="launchUltimateFireworks()">
-                        <span>🎆 PHÁO HOA HOÀNH TRÁNG</span>
-                    </button>
-                    <button class="btn-ultimate" onclick="resetAll()">
-                        <span>🔄 CHƠI LẠI</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+        <button class="reset-btn" id="resetBtn" onclick="location.reload()">Làm lại từ đầu</button>
     </div>
 
     <script>
-        // Global variables
-        let currentStage = 0;
-        let secretsFound = new Set();
-        let shakeCount = 0;
-        let selectedSymbols = [];
-        let konami = [];
-        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // --- 1. PERSONALIZATION (URL PARAMS) ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const toName = urlParams.get('to');
+        if(toName) document.getElementById('receiver').innerText = toName;
 
-        // Setup canvas
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // --- 2. DATA: 6 LỜI CHÚC (Thẻ Bài) ---
+        const wishes = [
+            { icon: "💰", title: "Tài Lộc", text: "Tiền vào như nước, ví dày quanh năm. Đầu tư đâu thắng đó." },
+            { icon: "❤️", title: "Tình Duyên", text: "Hạnh phúc viên mãn. Người độc thân sớm gặp ý trung nhân." },
+            { icon: "🏆", title: "Sự Nghiệp", text: "Thăng quan tiến chức. Công việc thuận buồm xuôi gió." },
+            { icon: "💪", title: "Sức Khỏe", text: "Dẻo dai như Rắn, mạnh mẽ kiên cường. Bệnh tật tiêu tan." },
+            { icon: "✈️", title: "Du Lịch", text: "Năm nay sẽ có những chuyến đi xa tuyệt vời đầy ắp kỷ niệm." },
+            { icon: "🌟", title: "May Mắn", text: "Vạn sự như ý. Gặp dữ hóa lành, quý nhân phù trợ." }
+        ];
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        // --- 3. AUDIO ENGINE (Âm thanh tự tạo) ---
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
 
-        // Custom cursor
-        const cursor = document.getElementById('cursor');
-        let cursorX = 0, cursorY = 0;
+        function playSound(type) {
+            if (!audioCtx) audioCtx = new AudioCtx();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-        document.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-
-            // Create trail
-            if (Math.random() < 0.3) {
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.left = cursorX + 'px';
-                trail.style.top = cursorY + 'px';
-                document.body.appendChild(trail);
-                setTimeout(() => trail.remove(), 500);
-            }
-        });
-
-        document.addEventListener('mousedown', () => {
-            cursor.classList.add('clicked');
-        });
-
-        document.addEventListener('mouseup', () => {
-            cursor.classList.remove('clicked');
-        });
-
-        // Particle system
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-                this.life = 1;
-                this.decay = Math.random() * 0.01 + 0.005;
-                this.size = Math.random() * 3 + 1;
-                this.color = `rgba(255, ${Math.random() * 100 + 155}, 0, ${this.life})`;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life -= this.decay;
-
-                if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 155}, 0, ${this.life})`;
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = this.color;
-                ctx.fill();
+            const now = audioCtx.currentTime;
+            
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'flip') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'bg') {
+                // Intro sound
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.linearRampToValueAtTime(600, now + 1);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.linearRampToValueAtTime(0, now + 1.5);
+                osc.start(now);
+                osc.stop(now + 1.5);
             }
         }
 
-        // Initialize particles
-        for (let i = 0; i < 100; i++) {
-            particles.push(new Particle());
+        // --- 4. STAGE MANAGEMENT ---
+        function goToStage2() {
+            playSound('bg');
+            document.getElementById('stage1').classList.remove('active');
+            document.getElementById('stage1').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('stage2').classList.add('active');
+            }, 500);
+        }
+
+        function goToStage3() {
+            playSound('click');
+            // Effect nổ
+            createExplosion(window.innerWidth/2, window.innerHeight/2);
+            
+            document.getElementById('stage2').classList.remove('active');
+            document.getElementById('stage2').classList.add('hidden');
+            
+            renderCards(); // Tạo thẻ bài
+            
+            setTimeout(() => {
+                document.getElementById('stage3').classList.add('active');
+            }, 500);
+        }
+
+        // --- 5. RENDER CARDS & INTERACTION ---
+        function renderCards() {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+            
+            wishes.forEach((wish, index) => {
+                const card = document.createElement('div');
+                card.className = 'flip-card';
+                card.style.opacity = '0';
+                card.style.animation = `pulseBtn 0.5s forwards ${index * 0.1}s`; // Fade in từng cái
+                
+                card.innerHTML = `
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="front-icon">🐍</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="wish-icon">${wish.icon}</div>
+                            <div class="wish-title">${wish.title}</div>
+                            <div class="wish-text">${wish.text}</div>
+                        </div>
+                    </div>
+                `;
+
+                // Click event cho từng thẻ
+                card.onclick = function() {
+                    if (!this.classList.contains('flipped')) {
+                        this.classList.add('flipped');
+                        playSound('flip');
+                        createExplosion(this.getBoundingClientRect().left + this.offsetWidth/2, this.getBoundingClientRect().top + this.offsetHeight/2);
+                        checkAllFlipped();
+                    }
+                };
+
+                grid.appendChild(card);
+                
+                // Hack animation fill mode
+                setTimeout(() => card.style.opacity = '1', index * 100 + 500);
+            });
+        }
+
+        function checkAllFlipped() {
+            const flipped = document.querySelectorAll('.flipped').length;
+            if (flipped === wishes.length) {
+                document.getElementById('resetBtn').classList.add('show');
+            }
+        }
+
+        // --- 6. SNAKE CURSOR ---
+        const cursor = document.getElementById('cursorDot');
+        const trails = [];
+        const numTrails = 8;
+        
+        for(let i=0; i<numTrails; i++) {
+            const t = document.createElement('div');
+            t.className = 'cursor-trail';
+            document.body.appendChild(t);
+            trails.push({ el: t, x: 0, y: 0 });
+        }
+
+        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            let x = mouseX; let y = mouseY;
+            trails.forEach((t, i) => {
+                t.x += (x - t.x) * 0.3;
+                t.y += (y - t.y) * 0.3;
+                t.el.style.left = t.x - 5 + 'px';
+                t.el.style.top = t.y - 5 + 'px';
+                t.el.style.opacity = (1 - i/numTrails);
+                t.el.style.transform = `scale(${1 - i/numTrails})`;
+                x = t.x; y = t.y;
+            });
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // --- 7. PARTICLE BACKGROUND ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = [];
+
+        function createExplosion(x, y) {
+            for(let i=0; i<30; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 15, vy: (Math.random() - 0.5) * 15,
+                    life: 1, color: '#ffd700'
+                });
+            }
+        }
+
+        // Tạo hạt bay nền (Gold dust)
+        for(let i=0; i<50; i++) {
+            particles.push({
+                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+                vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
+                life: Math.random(), color: '#ffffff', isBg: true
+            });
         }
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                
+                if (p.isBg) {
+                    if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                    ctx.globalAlpha = p.life * 0.5;
+                    ctx.fillStyle = '#fff';
+                } else {
+                    p.life -= 0.03;
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    if(p.life <= 0) particles.splice(i, 1);
+                }
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.isBg ? Math.random()*2 : 3, 0, Math.PI*2);
+                ctx.fill();
             });
             requestAnimationFrame(animateParticles);
         }
-
         animateParticles();
 
-        // Secret finding system
-        function findSecret(id) {
-            if (secretsFound.has(id)) return;
-            
-            secretsFound.add(id);
-            updateSecretCounter();
-            showAchievement(getSecretMessage(id));
-            createExplosion(cursorX, cursorY);
-
-            // Unlock hidden wish if all secrets found
-            if (secretsFound.size === 7) {
-                unlockHiddenWish();
-            }
-        }
-
-        function updateSecretCounter() {
-            document.getElementById('secretCount').textContent = secretsFound.size;
-            document.getElementById('finalSecretCount').textContent = secretsFound.size;
-            document.getElementById('secretCounter').classList.add('found');
-            setTimeout(() => {
-                document.getElementById('secretCounter').classList.remove('found');
-            }, 500);
-        }
-
-        function getSecretMessage(id) {
-            const messages = {
-                1: "🔍 Bí mật #1: Góc trên trái!",
-                2: "🔍 Bí mật #2: Góc trên phải!",
-                3: "🔍 Bí mật #3: Góc dưới trái!",
-                4: "🔍 Bí mật #4: Góc dưới phải!",
-                5: "🔍 Bí mật #5: Click chuột phải!",
-                6: "🔍 Bí mật #6: Lắc mạnh hơn nữa!",
-                7: "🔍 Bí mật #7: Konami Code!"
-            };
-            return messages[id] || "Bí mật!";
-        }
-
-        function showAchievement(text) {
-            const achievement = document.getElementById('achievement');
-            document.getElementById('achievementText').textContent = text;
-            achievement.classList.add('show');
-            setTimeout(() => {
-                achievement.classList.remove('show');
-            }, 2000);
-        }
-
-        function unlockHiddenWish() {
-            const hiddenWish = document.getElementById('hiddenWish');
-            hiddenWish.classList.add('unlocked');
-            showAchievement("👑 MỞ KHÓA LỜI CHÚC HOÀNG KIM!");
-            createMassiveExplosion();
-        }
-
-        // Stage transitions
-        function startJourney() {
-            transitionStage(0, 1);
-            createExplosion(window.innerWidth / 2, window.innerHeight / 2);
-        }
-
-        function transitionStage(from, to) {
-            document.getElementById('stage' + from).classList.remove('active');
-            setTimeout(() => {
-                document.getElementById('stage' + to).classList.add('active');
-                currentStage = to;
-            }, 500);
-        }
-
-        // Envelope interactions
-        let clickCount = 0;
-        function clickEnvelope() {
-            clickCount++;
-            if (clickCount >= 3) {
-                transitionStage(1, 2);
-                setupShakeDetection();
-            }
-        }
-
-        // Shake detection
-        let lastShake = 0;
-        function setupShakeDetection() {
-            if (window.DeviceMotionEvent) {
-                window.addEventListener('devicemotion', handleShake);
-            }
-            
-            // Fallback: mouse movement
-            let mouseShakeCount = 0;
-            let lastMouseX = 0;
-            document.addEventListener('mousemove', (e) => {
-                if (currentStage === 2) {
-                    const delta = Math.abs(e.clientX - lastMouseX);
-                    if (delta > 50) {
-                        mouseShakeCount++;
-                        updateShakeProgress(mouseShakeCount * 2);
-                    }
-                    lastMouseX = e.clientX;
-                }
-            });
-        }
-
-        function handleShake(event) {
-            const acceleration = event.accelerationIncludingGravity;
-            const magnitude = Math.sqrt(
-                acceleration.x ** 2 + 
-                acceleration.y ** 2 + 
-                acceleration.z ** 2
-            );
-
-            if (magnitude > 25 && Date.now() - lastShake > 100) {
-                lastShake = Date.now();
-                shakeCount++;
-                updateShakeProgress(shakeCount);
-            }
-        }
-
-        function updateShakeProgress(count) {
-            const progress = Math.min(count * 5, 100);
-            document.getElementById('shakeProgress').style.width = progress + '%';
-            
-            if (count > 10) {
-                findSecret(6);
-            }
-
-            if (progress >= 100) {
-                setTimeout(() => {
-                    transitionStage(2, 3);
-                    createExplosion(window.innerWidth / 2, window.innerHeight / 2);
-                }, 500);
-            }
-        }
-
-        // Symbol puzzle
-        function selectSymbol(element, symbol) {
-            if (element.classList.contains('selected')) return;
-            
-            element.classList.add('selected');
-            selectedSymbols.push(symbol);
-
-            if (selectedSymbols.length === 3) {
-                setTimeout(() => {
-                    transitionStage(3, 4);
-                    revealWishes();
-                }, 1000);
-            }
-        }
-
-        // Reveal wishes with scroll
-        function revealWishes() {
-            const wishCards = document.querySelectorAll('.wish-card:not(.hidden-wish)');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal');
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            wishCards.forEach((card, index) => {
-                setTimeout(() => {
-                    observer.observe(card);
-                }, index * 200);
-            });
-        }
-
-        // Konami code
-        document.addEventListener('keydown', (e) => {
-            konami.push(e.key);
-            if (konami.length > konamiCode.length) {
-                konami.shift();
-            }
-
-            if (JSON.stringify(konami) === JSON.stringify(konamiCode)) {
-                findSecret(7);
-                konami = [];
-            }
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         });
 
-        // Show konami hint after 10 seconds
-        setTimeout(() => {
-            document.getElementById('konamiHint').classList.add('show');
-            setTimeout(() => {
-                document.getElementById('konamiHint').classList.remove('show');
-            }, 5000);
-        }, 10000);
-
-        // Explosions
-        function createExplosion(x, y) {
-            const colors = ['#ffd700', '#ff6600', '#dc143c', '#ffed4e'];
-            
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.width = '8px';
-                particle.style.height = '8px';
-                particle.style.borderRadius = '50%';
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.boxShadow = `0 0 20px ${colors[Math.floor(Math.random() * colors.length)]}`;
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '9999';
-                
-                document.body.appendChild(particle);
-                
-                const angle = (Math.PI * 2 * i) / 50;
-                const velocity = Math.random() * 300 + 150;
-                const vx = Math.cos(angle) * velocity;
-                const vy = Math.sin(angle) * velocity;
-                
-                let px = x, py = y;
-                let opacity = 1;
-                let time = 0;
-                
-                function animate() {
-                    time += 0.016;
-                    px += vx * 0.016;
-                    py += vy * 0.016 + 200 * time;
-                    opacity -= 0.016;
-                    
-                    particle.style.left = px + 'px';
-                    particle.style.top = py + 'px';
-                    particle.style.opacity = opacity;
-                    
-                    if (opacity > 0) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        particle.remove();
-                    }
-                }
-                
-                animate();
-            }
-        }
-
-        function createMassiveExplosion() {
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    createExplosion(
-                        Math.random() * window.innerWidth,
-                        Math.random() * window.innerHeight
-                    );
-                }, i * 200);
-            }
-        }
-
-        // Ultimate fireworks
-        function launchUltimateFireworks() {
-            const colors = ['#ffd700', '#ff6600', '#dc143c', '#ffed4e', '#ff1493'];
-            
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const x = Math.random() * window.innerWidth;
-                    const y = Math.random() * window.innerHeight * 0.6 + window.innerHeight * 0.1;
-                    createFirework(x, y, colors[Math.floor(Math.random() * colors.length)]);
-                }, i * 150);
-            }
-        }
-
-        function createFirework(x, y, color) {
-            for (let i = 0; i < 60; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.width = '10px';
-                particle.style.height = '10px';
-                particle.style.borderRadius = '50%';
-                particle.style.background = color;
-                particle.style.boxShadow = `0 0 30px ${color}`;
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '9999';
-                
-                document.body.appendChild(particle);
-                
-                const angle = (Math.PI * 2 * i) / 60;
-                const velocity = Math.random() * 400 + 200;
-                const vx = Math.cos(angle) * velocity;
-                const vy = Math.sin(angle) * velocity;
-                
-                let px = x, py = y;
-                let opacity = 1;
-                let time = 0;
-                
-                function animate() {
-                    time += 0.016;
-                    px += vx * 0.016;
-                    py += vy * 0.016 + 250 * time;
-                    opacity -= 0.012;
-                    
-                    particle.style.left = px + 'px';
-                    particle.style.top = py + 'px';
-                    particle.style.opacity = opacity;
-                    
-                    if (opacity > 0) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        particle.remove();
-                    }
-                }
-                
-                animate();
-            }
-        }
-
-        // Reset
-        function resetAll() {
-            createMassiveExplosion();
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
-        }
-
-        // Initialize
-        window.addEventListener('load', () => {
-            // Welcome fireworks
-            setTimeout(() => {
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(() => {
-                        createExplosion(
-                            Math.random() * window.innerWidth,
-                            Math.random() * window.innerHeight * 0.5
-                        );
-                    }, i * 300);
-                }
-            }, 1000);
-        });
     </script>
 </body>
 </html>
