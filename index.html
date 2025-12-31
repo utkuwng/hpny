@@ -3,424 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Khai Lộc Đầu Xuân 2025</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Lộc Thần Tài 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700;900&family=Pacifico&display=swap" rel="stylesheet">
     <style>
-        /* --- RESET & BASIC SETUP --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: #050000; 
-            color: #ffd700; 
-            font-family: 'Playfair Display', serif; 
-            overflow: hidden; 
+        /* --- 1. SETUP & THEME TẾT --- */
+        :root {
+            --red-bg: #800000;
+            --red-bright: #e60000;
+            --gold: #ffd700;
+            --gold-shine: #fff8d6;
+            --paper: #fffdf0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--red-bg);
+            /* Họa tiết gấm sang trọng */
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(100,0,0,0) 0%, rgba(40,0,0,0.8) 100%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30c-5 0-10-5-10-10s5-10 10-10 10 5 10 10-5 10-10 10zm0 0c5 0 10 5 10 10s-5 10-10 10-10-5-10-10 5-10 10-10z' fill='%23ffd700' fill-opacity='0.05'/%3E%3C/svg%3E");
+            overflow: hidden;
             height: 100vh;
-            user-select: none; /* Chống bôi đen text */
-        }
-
-        /* --- BACKGROUND PARTICLES (Lớp thấp nhất) --- */
-        #particleCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; /* Nằm dưới cùng */
-            pointer-events: none; /* Không chặn click */
-        }
-
-        /* --- SNAKE CURSOR (Trang trí chuột) --- */
-        .cursor-dot {
-            position: fixed; width: 20px; height: 20px;
-            background: radial-gradient(circle, #ffd700, transparent);
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%); transition: transform 0.1s;
-        }
-        .cursor-trail {
-            position: fixed; width: 10px; height: 10px;
-            background: rgba(255, 215, 0, 0.5); border-radius: 50%;
-            pointer-events: none; z-index: 9998;
-        }
-
-        /* --- UI LAYERS --- */
-        .stage {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; justify-content: center; align-items: center; flex-direction: column;
-            opacity: 0; pointer-events: none; transition: opacity 0.8s ease, transform 0.8s ease;
-            z-index: 10; /* Nằm trên canvas */
-        }
-        .stage.active { opacity: 1; pointer-events: auto; transform: scale(1); }
-        .stage.hidden { opacity: 0; transform: scale(1.1); pointer-events: none; }
-
-        /* --- STAGE 1: INTRO --- */
-        .intro-box {
-            text-align: center; z-index: 20;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 40px; border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.1);
-        }
-        .title-main {
-            font-family: 'Great Vibes', cursive; font-size: 5rem;
-            background: linear-gradient(to bottom, #ffd700, #b8860b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            margin-bottom: 10px;
-        }
-        .sub-title { font-size: 1.2rem; letter-spacing: 3px; color: #ccc; margin-bottom: 30px; }
-        
-        .btn-start {
-            padding: 15px 50px; font-size: 1.5rem; color: #000;
-            background: linear-gradient(45deg, #ffd700, #ffec8b);
-            border: none; border-radius: 50px; cursor: pointer;
-            font-family: 'Cinzel', serif; font-weight: bold;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-            transition: all 0.3s; animation: pulseBtn 2s infinite;
-        }
-        .btn-start:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
-
-        /* --- STAGE 2: THE 3D ENVELOPE --- */
-        .envelope-wrapper { perspective: 1500px; cursor: pointer; }
-        .envelope {
-            width: 320px; height: 500px;
-            background: linear-gradient(135deg, #800000, #400000);
-            border: 3px solid #ffd700; border-radius: 15px;
-            position: relative; transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            font-family: 'Playfair Display', serif;
             display: flex; justify-content: center; align-items: center;
         }
-        .envelope:hover { transform: translateY(-20px) rotateX(10deg); }
-        
-        .seal {
-            width: 100px; height: 100px; background: radial-gradient(circle, #ffd700, #b8860b);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            font-size: 3rem; color: #800000; font-family: 'Cinzel', serif; font-weight: bold;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
-            transform: translateZ(20px); /* Nổi lên trên mặt phong bì */
-        }
-        .click-hint {
-            margin-top: 30px; color: #aaa; font-size: 0.9rem; letter-spacing: 2px;
-            animation: fadeHint 1.5s infinite; text-align: center;
-        }
 
-        /* --- STAGE 3: FLIP CARDS GRID (Cốt lõi) --- */
-        .cards-container {
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 20px;
-            width: 90%; max-width: 900px;
-            perspective: 1000px;
-            z-index: 100; /* Đảm bảo nổi trên cùng */
-        }
+        /* Canvas Hoa Rơi */
+        #flowerCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
-        .flip-card {
-            background-color: transparent;
-            width: 100%; aspect-ratio: 3/4; /* Tỉ lệ chuẩn thẻ bài */
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .flip-card-inner {
-            position: relative; width: 100%; height: 100%; text-align: center;
-            transition: transform 0.8s; transform-style: preserve-3d;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-
-        .flip-card-front, .flip-card-back {
+        /* Container Chính */
+        .stage {
             position: absolute; width: 100%; height: 100%;
-            -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            border-radius: 15px;
-            border: 2px solid #ffd700;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Hiệu ứng nảy */
+            z-index: 10;
+        }
+        
+        .stage.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+        .stage.exit { opacity: 0; transform: scale(1.5); filter: blur(10px); pointer-events: none; }
+
+        /* --- STAGE 1: THẦN TÀI & CỤC VÀNG --- */
+        .god-container { text-align: center; position: relative; }
+        
+        .god-image {
+            width: 200px; height: auto;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            animation: float 3s ease-in-out infinite;
         }
 
-        /* Mặt trước (Úp) */
-        .flip-card-front {
-            background: linear-gradient(135deg, #1a0505, #2b0a0a);
-            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 4h2v2H5V5zm4 4h2v2H9V9zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2z' fill='%23ffd700' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        /* Hào quang xoay sau lưng Thần Tài */
+        .god-aura {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 300px; height: 300px;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            border-radius: 50%; z-index: -1;
+            animation: spin 10s linear infinite;
         }
-        .front-icon { font-size: 3rem; opacity: 0.3; filter: grayscale(1); transition: 0.3s; }
-        .flip-card:hover .front-icon { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
 
-        /* Mặt sau (Ngửa) */
-        .flip-card-back {
-            background: linear-gradient(135deg, #ffd700, #ffec8b);
-            color: #800000; transform: rotateY(180deg);
-            padding: 15px;
+        .gold-ingot {
+            font-size: 5rem; cursor: pointer;
+            margin-top: -20px; z-index: 10; position: relative;
+            filter: drop-shadow(0 0 15px var(--gold));
+            transition: transform 0.1s;
+            animation: shake 0.5s infinite; /* Rung lắc liên tục */
         }
-        .wish-icon { font-size: 3rem; margin-bottom: 10px; }
-        .wish-title { font-family: 'Cinzel', serif; font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; }
-        .wish-text { font-size: 0.9rem; line-height: 1.4; font-weight: 500; }
+        
+        .gold-ingot:active { transform: scale(0.9); }
+        
+        .click-hint {
+            color: var(--gold); font-family: 'Pacifico', cursive; margin-top: 20px;
+            font-size: 1.2rem; animation: pulse 1s infinite;
+        }
 
-        /* Nút Reset ở cuối */
-        .reset-btn {
-            margin-top: 30px; padding: 10px 30px; 
-            background: transparent; border: 1px solid #ffd700; color: #ffd700;
-            border-radius: 30px; cursor: pointer; opacity: 0; pointer-events: none; transition: 0.5s;
+        /* --- STAGE 2: LÌ XÌ KHỔNG LỒ --- */
+        .giant-envelope {
+            width: 280px; height: 450px;
+            background: linear-gradient(135deg, #d60000, #900000);
+            border: 4px solid var(--gold); border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; position: relative;
+            transform-style: preserve-3d;
         }
-        .reset-btn.show { opacity: 1; pointer-events: auto; }
+        
+        .giant-envelope:hover { transform: scale(1.05); }
+
+        .giant-seal {
+            width: 90px; height: 90px; background: radial-gradient(circle, var(--gold), #daa520);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 2.5rem; color: #900000; font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
+        }
+
+        .giant-text {
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--gold);
+            margin-top: 20px; text-shadow: 2px 2px 0 #000;
+        }
+        
+        .glow-effect {
+            position: absolute; width: 100%; height: 100%; border-radius: 20px;
+            box-shadow: 0 0 30px var(--gold);
+            animation: glowPulse 2s infinite; pointer-events: none;
+        }
+
+        /* --- STAGE 3: GRID 6 BAO LÌ XÌ NHỎ --- */
+        .grid-wrapper {
+            width: 100%; max-width: 800px; padding: 20px;
+            text-align: center; overflow-y: auto; max-height: 100vh;
+        }
+
+        .header-2026 {
+            font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--gold);
+            margin-bottom: 20px; text-shadow: 0 0 10px #ff0000;
+        }
+
+        .card-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
+            padding-bottom: 40px;
+        }
+        @media(min-width: 768px) { .card-grid { grid-template-columns: repeat(3, 1fr); gap: 25px; } }
+
+        .red-packet {
+            aspect-ratio: 2/3; position: relative; perspective: 1000px; cursor: pointer;
+        }
+
+        .packet-inner {
+            width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d; position: relative;
+        }
+
+        .red-packet.open .packet-inner { transform: rotateY(180deg); }
+
+        .packet-front, .packet-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+
+        .packet-front {
+            background: linear-gradient(135deg, #ff0000, #b30000);
+            border: 2px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .packet-decor {
+            font-size: 2rem; color: rgba(255,215,0,0.8); font-weight: bold; border: 2px solid rgba(255,215,0,0.5);
+            width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;
+            border-radius: 50%; transform: rotate(45deg);
+        }
+        .packet-decor span { transform: rotate(-45deg); }
+
+        .packet-back {
+            background: var(--paper); color: #800000; transform: rotateY(180deg);
+            padding: 10px; border: 2px solid var(--gold);
+        }
+
+        .wish-text { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: bold; line-height: 1.4; }
+        .wish-icon { font-size: 2rem; margin-bottom: 5px; }
 
         /* --- ANIMATIONS --- */
-        @keyframes pulseBtn { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-        @keyframes fadeHint { 0%,100%{opacity:0.3} 50%{opacity:1} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes spin { 100% { transform: translate(-50%,-50%) rotate(360deg); } }
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 50% { transform: rotate(0deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        @keyframes glowPulse { 0%,100%{box-shadow:0 0 20px var(--gold)} 50%{box-shadow:0 0 50px var(--gold)} }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .cards-container { grid-template-columns: repeat(2, 1fr); gap: 10px; width: 95%; }
-            .title-main { font-size: 3.5rem; }
-            .wish-text { font-size: 0.8rem; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="cursor-dot" id="cursorDot"></div>
-    <canvas id="particleCanvas"></canvas>
+    <canvas id="flowerCanvas"></canvas>
 
     <div class="stage active" id="stage1">
-        <div class="intro-box">
-            <h1 class="title-main">2025</h1>
-            <p class="sub-title">XUÂN ẤT TỴ - PHÚC LỘC TRÀN ĐẦY</p>
-            <p style="margin-bottom: 20px;">Gửi đến: <span id="receiver" style="color:#fff; font-weight:bold">Người Bạn Quý</span></p>
-            <button class="btn-start" onclick="goToStage2()">KHAI ẤN</button>
+        <div class="god-container">
+            <div class="god-aura"></div>
+            <div class="god-image" style="font-size: 8rem;">🎅</div> 
+            <div style="font-family:'Dancing Script'; color:var(--gold); font-size:2rem; margin-top:-20px;">Thần Tài Gõ Cửa</div>
+            
+            <div class="gold-ingot" onclick="openGiantBag()">💰</div>
+            <div class="click-hint">Chạm vào Vàng để nhận lộc!</div>
         </div>
     </div>
 
     <div class="stage" id="stage2">
-        <div class="envelope-wrapper" onclick="goToStage3()">
-            <div class="envelope">
-                <div class="seal">福</div>
-            </div>
+        <div class="giant-envelope" onclick="explodeBag()">
+            <div class="glow-effect"></div>
+            <div class="giant-seal">2026</div>
+            <div class="giant-text">Lộc Lớn</div>
+            <div class="click-hint" style="position:absolute; bottom:20px;">Chạm để nổ lì xì!</div>
         </div>
-        <p class="click-hint">Chạm vào Phong Bao để mở vận may</p>
     </div>
 
     <div class="stage" id="stage3">
-        <h2 style="margin-bottom: 20px; font-family: 'Cinzel'; text-shadow: 0 0 10px #ffd700;">CHỌN 6 QUẺ LỘC ĐẦU NĂM</h2>
-        <div class="cards-container" id="cardsGrid">
-            </div>
-        <button class="reset-btn" id="resetBtn" onclick="location.reload()">Làm lại từ đầu</button>
+        <div class="grid-wrapper">
+            <div class="header-2026">Xuân Bính Ngọ 2026</div>
+            <div style="color:#fff; margin-bottom:20px;">Chúc <span id="name-display" style="color:var(--gold); font-weight:bold;">Bạn</span> vạn sự như ý</div>
+            
+            <div class="card-grid" id="gridContainer">
+                </div>
+
+            <button onclick="location.reload()" style="padding:10px 30px; border-radius:50px; border:1px solid var(--gold); background:transparent; color:var(--gold); cursor:pointer;">
+                Làm lại từ đầu
+            </button>
+        </div>
     </div>
 
     <script>
-        // --- 1. PERSONALIZATION (URL PARAMS) ---
+        // --- 1. CONFIG & DATA ---
         const urlParams = new URLSearchParams(window.location.search);
-        const toName = urlParams.get('to');
-        if(toName) document.getElementById('receiver').innerText = toName;
+        const userName = urlParams.get('to') || "Bạn Hiền";
+        document.getElementById('name-display').innerText = userName;
 
-        // --- 2. DATA: 6 LỜI CHÚC (Thẻ Bài) ---
         const wishes = [
-            { icon: "💰", title: "Tài Lộc", text: "Tiền vào như nước, ví dày quanh năm. Đầu tư đâu thắng đó." },
-            { icon: "❤️", title: "Tình Duyên", text: "Hạnh phúc viên mãn. Người độc thân sớm gặp ý trung nhân." },
-            { icon: "🏆", title: "Sự Nghiệp", text: "Thăng quan tiến chức. Công việc thuận buồm xuôi gió." },
-            { icon: "💪", title: "Sức Khỏe", text: "Dẻo dai như Rắn, mạnh mẽ kiên cường. Bệnh tật tiêu tan." },
-            { icon: "✈️", title: "Du Lịch", text: "Năm nay sẽ có những chuyến đi xa tuyệt vời đầy ắp kỷ niệm." },
-            { icon: "🌟", title: "May Mắn", text: "Vạn sự như ý. Gặp dữ hóa lành, quý nhân phù trợ." }
+            { icon: "🐴", title: "Mã Đáo", text: "Năm Ngựa phi nước đại, công danh sự nghiệp tiến xa ngàn dặm." },
+            { icon: "💰", title: "Tài Lộc", text: "Tiền vào cửa trước, vàng vào cửa sau. Hai cái gặp nhau, chui vào két sắt." },
+            { icon: "❤️", title: "Tình Duyên", text: "Đào hoa nở rộ, sớm gặp người thương, hạnh phúc đong đầy." },
+            { icon: "🛡️", title: "Sức Khỏe", text: "Mạnh như Hổ, dẻo dai như Rắn, bền bỉ như Ngựa chiến." },
+            { icon: "✈️", title: "Du Hí", text: "Năm nay xách ba lô lên và đi. Những chuyến đi xa mang về vận may lớn." },
+            { icon: "🌟", title: "May Mắn", text: "Quý nhân phù trợ, gặp dữ hóa lành, vạn sự hanh thông." }
         ];
 
-        // --- 3. AUDIO ENGINE (Âm thanh tự tạo) ---
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        let audioCtx;
-
-        function playSound(type) {
-            if (!audioCtx) audioCtx = new AudioCtx();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+        // --- 2. LOGIC CHUYỂN CẢNH ---
+        
+        // Từ Thần Tài -> Bao to
+        function openGiantBag() {
+            // Hiệu ứng nổ nhỏ
+            createConfetti(window.innerWidth/2, window.innerHeight/2, 20);
             
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            const s1 = document.getElementById('stage1');
+            const s2 = document.getElementById('stage2');
 
-            const now = audioCtx.currentTime;
-            
-            if (type === 'click') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, now);
-                osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.linearRampToValueAtTime(0, now + 0.1);
-                osc.start(now);
-                osc.stop(now + 0.1);
-            } else if (type === 'flip') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(400, now);
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.linearRampToValueAtTime(0, now + 0.2);
-                osc.start(now);
-                osc.stop(now + 0.2);
-            } else if (type === 'bg') {
-                // Intro sound
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(200, now);
-                osc.frequency.linearRampToValueAtTime(600, now + 1);
-                gain.gain.setValueAtTime(0.05, now);
-                gain.gain.linearRampToValueAtTime(0, now + 1.5);
-                osc.start(now);
-                osc.stop(now + 1.5);
-            }
-        }
-
-        // --- 4. STAGE MANAGEMENT ---
-        function goToStage2() {
-            playSound('bg');
-            document.getElementById('stage1').classList.remove('active');
-            document.getElementById('stage1').classList.add('hidden');
+            s1.classList.add('exit');
             setTimeout(() => {
-                document.getElementById('stage2').classList.add('active');
+                s1.classList.remove('active');
+                s2.classList.add('active');
+                // Hiệu ứng bao to rơi xuống
+                s2.style.animation = "bounceIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)";
             }, 500);
         }
 
-        function goToStage3() {
-            playSound('click');
-            // Effect nổ
-            createExplosion(window.innerWidth/2, window.innerHeight/2);
+        // Từ Bao to -> Nổ ra bao nhỏ
+        function explodeBag() {
+            // Hiệu ứng nổ lớn
+            createConfetti(window.innerWidth/2, window.innerHeight/2, 100);
             
-            document.getElementById('stage2').classList.remove('active');
-            document.getElementById('stage2').classList.add('hidden');
-            
-            renderCards(); // Tạo thẻ bài
+            const s2 = document.getElementById('stage2');
+            const s3 = document.getElementById('stage3');
+
+            // Hiệu ứng rung bần bật trước khi nổ
+            s2.querySelector('.giant-envelope').style.animation = "shake 0.2s infinite";
             
             setTimeout(() => {
-                document.getElementById('stage3').classList.add('active');
+                s2.classList.add('exit');
+                s2.classList.remove('active');
+                s3.classList.add('active');
+                renderGrid(); // Tạo các bao lì xì nhỏ
             }, 500);
         }
 
-        // --- 5. RENDER CARDS & INTERACTION ---
-        function renderCards() {
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = '';
+        // --- 3. RENDER GRID ---
+        function renderGrid() {
+            const container = document.getElementById('gridContainer');
+            container.innerHTML = '';
             
-            wishes.forEach((wish, index) => {
-                const card = document.createElement('div');
-                card.className = 'flip-card';
-                card.style.opacity = '0';
-                card.style.animation = `pulseBtn 0.5s forwards ${index * 0.1}s`; // Fade in từng cái
+            // Xáo trộn lời chúc
+            wishes.sort(() => Math.random() - 0.5);
+
+            wishes.forEach((w, i) => {
+                const el = document.createElement('div');
+                el.className = 'red-packet';
+                // Animation bay vào
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(50px)';
+                el.style.transition = 'all 0.5s ease ' + (i * 0.1) + 's';
                 
-                card.innerHTML = `
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="front-icon">🐍</div>
+                el.innerHTML = `
+                    <div class="packet-inner">
+                        <div class="packet-front">
+                            <div class="packet-decor"><span>福</span></div>
+                            <div style="color:var(--gold); font-size:0.8rem; margin-top:5px;">Mở Lộc</div>
                         </div>
-                        <div class="flip-card-back">
-                            <div class="wish-icon">${wish.icon}</div>
-                            <div class="wish-title">${wish.title}</div>
-                            <div class="wish-text">${wish.text}</div>
+                        <div class="packet-back">
+                            <div class="wish-icon">${w.icon}</div>
+                            <div class="wish-text" style="color:#b30000;">${w.title}</div>
+                            <div class="wish-text" style="font-weight:normal; margin-top:5px; font-size:0.8rem;">${w.text}</div>
                         </div>
                     </div>
                 `;
 
-                // Click event cho từng thẻ
-                card.onclick = function() {
-                    if (!this.classList.contains('flipped')) {
-                        this.classList.add('flipped');
-                        playSound('flip');
-                        createExplosion(this.getBoundingClientRect().left + this.offsetWidth/2, this.getBoundingClientRect().top + this.offsetHeight/2);
-                        checkAllFlipped();
+                // Click mở bao
+                el.onclick = function() {
+                    if(!this.classList.contains('open')) {
+                        this.classList.add('open');
+                        createConfetti(
+                            this.getBoundingClientRect().left + this.offsetWidth/2,
+                            this.getBoundingClientRect().top + this.offsetHeight/2,
+                            15
+                        );
                     }
                 };
 
-                grid.appendChild(card);
+                container.appendChild(el);
                 
-                // Hack animation fill mode
-                setTimeout(() => card.style.opacity = '1', index * 100 + 500);
+                // Kích hoạt animation bay vào
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 50);
             });
         }
 
-        function checkAllFlipped() {
-            const flipped = document.querySelectorAll('.flipped').length;
-            if (flipped === wishes.length) {
-                document.getElementById('resetBtn').classList.add('show');
-            }
-        }
-
-        // --- 6. SNAKE CURSOR ---
-        const cursor = document.getElementById('cursorDot');
-        const trails = [];
-        const numTrails = 8;
+        // --- 4. HIỆU ỨNG HOA RƠI (CANVAS) ---
+        const canvas = document.getElementById('flowerCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         
-        for(let i=0; i<numTrails; i++) {
-            const t = document.createElement('div');
-            t.className = 'cursor-trail';
-            document.body.appendChild(t);
-            trails.push({ el: t, x: 0, y: 0 });
-        }
-
-        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX; mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
+        const petals = [];
+        for(let i=0; i<50; i++) petals.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 5 + 2,
+            speed: Math.random() * 1 + 0.5,
+            color: Math.random() > 0.5 ? '#ffd700' : '#ff9999' // Vàng hoặc Hồng
         });
 
-        function animateCursor() {
-            let x = mouseX; let y = mouseY;
-            trails.forEach((t, i) => {
-                t.x += (x - t.x) * 0.3;
-                t.y += (y - t.y) * 0.3;
-                t.el.style.left = t.x - 5 + 'px';
-                t.el.style.top = t.y - 5 + 'px';
-                t.el.style.opacity = (1 - i/numTrails);
-                t.el.style.transform = `scale(${1 - i/numTrails})`;
-                x = t.x; y = t.y;
-            });
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // --- 7. PARTICLE BACKGROUND ---
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = [];
-
-        function createExplosion(x, y) {
-            for(let i=0; i<30; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 15, vy: (Math.random() - 0.5) * 15,
-                    life: 1, color: '#ffd700'
-                });
-            }
-        }
-
-        // Tạo hạt bay nền (Gold dust)
-        for(let i=0; i<50; i++) {
-            particles.push({
-                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-                vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
-                life: Math.random(), color: '#ffffff', isBg: true
-            });
-        }
-
-        function animateParticles() {
+        function animateBg() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy;
+            petals.forEach(p => {
+                p.y += p.speed;
+                p.x += Math.sin(p.y * 0.01);
+                if(p.y > canvas.height) p.y = -10;
                 
-                if (p.isBg) {
-                    if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-                    ctx.globalAlpha = p.life * 0.5;
-                    ctx.fillStyle = '#fff';
-                } else {
-                    p.life -= 0.03;
-                    ctx.globalAlpha = p.life;
-                    ctx.fillStyle = p.color;
-                    if(p.life <= 0) particles.splice(i, 1);
-                }
-                
+                ctx.fillStyle = p.color;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.isBg ? Math.random()*2 : 3, 0, Math.PI*2);
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
                 ctx.fill();
             });
-            requestAnimationFrame(animateParticles);
+            requestAnimationFrame(animateBg);
         }
-        animateParticles();
+        animateBg();
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        });
+        // --- 5. HIỆU ỨNG NỔ (CONFETTI SIMPLE) ---
+        function createConfetti(x, y, count) {
+            // Đây là hàm giả lập nổ đơn giản bằng DOM để không cần thư viện
+            // Nếu muốn xịn hơn có thể dùng canvas-confetti library
+            for(let i=0; i<count; i++) {
+                const c = document.createElement('div');
+                c.style.position = 'fixed';
+                c.style.left = x + 'px';
+                c.style.top = y + 'px';
+                c.style.width = '5px';
+                c.style.height = '5px';
+                c.style.background = Math.random() > 0.5 ? '#ffd700' : '#fff';
+                c.style.zIndex = '9999';
+                document.body.appendChild(c);
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                c.animate([
+                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                }).onfinish = () => c.remove();
+            }
+        }
+        
+        // CSS Animation Helper
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes bounceIn {
+                0% { transform: scale(0); opacity: 0; }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
 
     </script>
 </body>
